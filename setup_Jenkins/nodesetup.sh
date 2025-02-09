@@ -30,7 +30,7 @@ fi
 
 # Command 4
 echo "Running command 4"
-sudo export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java
 if [$? -ne 0]; then
      echo "Command 4 failed"
 else
