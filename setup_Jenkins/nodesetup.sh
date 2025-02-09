@@ -1,9 +1,9 @@
 #!/bin/bash
 
+# Build machine setup.
 # Command 1
-echo "Running command 1"
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-command_1
+echo "Running command 1:: OS update"
+sudo apt update
 if [ $? -ne 0 ]; then
     echo "Command 1 failed"
 else
@@ -11,10 +11,8 @@ else
 fi
 
 # Command 2
-echo "Running command 2"
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-    /etc/apt/sources.list.d/jenkins.list > /dev/null
+echo "Running command 2 :: jdk setup"
+sudo apt install -y openjdk-17-jdk
 if [ $? -ne 0 ]; then
     echo "Command 2 failed"
 else
@@ -23,7 +21,7 @@ fi
 
 # Command 3
 echo "Running command 3"
-sudo apt update
+sudo hostnamectl set-hostname buildMachine
 if [ $? -ne 0 ]; then
     echo "Command 3 failed"
 else
@@ -32,7 +30,7 @@ fi
 
 # Command 4
 echo "Running command 4"
-sudo apt install -y fontconfig openjdk-17-jre
+sudo export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin/java
 if [$? -ne 0]; then
      echo "Command 4 failed"
 else
@@ -40,8 +38,8 @@ else
 fi
 
 # Command 5
-echo "Running command 5"
-sudo apt install -y jenkins
+echo "Running command 5 : setup java home at profile level"
+echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.bashrc
 if [$? -ne 0]; then
      echo "Command 5 failed"
 else
@@ -49,11 +47,15 @@ else
 fi
 
 # Command 6
-echo "Running command 6"
-sudo hostnamectl set-hostname jenkinsServer
-if [$? -ne 0]; then
+echo "Running command 6: java version information"
+echo $JAVA_HOME
+if [$? -ne 0]; then   
      echo "Command 6 failed"
-else
-   echo "Command 7 succeeded"
+else 
+     echo "Command 6 succeeded"
 fi
+
+#end of the script file.
+
+
 
